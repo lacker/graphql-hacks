@@ -1,0 +1,24 @@
+{
+  "name": "graphql-hacks",
+  "version": "0.0.1",
+  "description": "could it be way easier to set up graphql?",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lacker/graphql-hacks.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/lacker/graphql-hacks/issues"
+  },
+  "homepage": "https://github.com/lacker/graphql-hacks#readme",
+  "dependencies": {
+    "express-graphql": "^0.5.1",
+    "graphql": "^0.5.0"
+  }
+}
