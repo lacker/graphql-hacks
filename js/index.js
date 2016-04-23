@@ -61,9 +61,6 @@ for (let typeName in schema) {
     let typeString = schema[typeName][fieldName];
     objectArg.fields[fieldName] = {
       type: graphQLTypeFromTypeString(typeString),
-      resolve() {
-        return defaultForTypeString(typeString);
-      }
     }
   }
   rootFields[typeName] = new GraphQLObjectType(objectArg);
@@ -76,15 +73,9 @@ const GameScoreType = new GraphQLObjectType({
   fields: {
     playerName: {
       type: GraphQLString,
-      resolve() {
-        return 'hello';
-      }
     },
     score: {
       type: GraphQLInt,
-      resolve() {
-        return 42;
-      }
     },
   }
 });
@@ -92,10 +83,16 @@ const GameScoreType = new GraphQLObjectType({
 // Create a graphql schema from the schema
 const gqlSchema = new GraphQLSchema({
   query: new GraphQLObjectType({
-    name: 'RootQueryType',
+    name: 'Query',
     fields: {
-      gameScore: {
+      highScore: {
         type: GameScoreType,
+        resolve() {
+          return {
+            playerName: 'Kevin',
+            score: 1337,
+          }
+        }
       }
     }
   })
