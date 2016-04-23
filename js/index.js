@@ -24,6 +24,8 @@ const schema = {
   }
 };
 
+// TODO: migrate the database so that it matches the schema
+
 function graphQLTypeFromTypeString(typeString) {
   switch (typeString) {
     case 'String':
