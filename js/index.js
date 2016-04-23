@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import {
   graphql,
   GraphQLSchema,
@@ -7,6 +9,11 @@ import {
 
 import express from 'express';
 import graphqlHTTP from 'express-graphql';
+
+const databaseFile = __dirname + '/../dev.db';
+const databaseAlreadyExists = fs.existsSync(databaseFile);
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database(databaseFile);
 
 const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
