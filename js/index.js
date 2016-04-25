@@ -10,19 +10,27 @@ import {
 
 import express from 'express';
 import graphqlHTTP from 'express-graphql';
+import Sequelize from 'sequelize';
 
 const databaseFile = __dirname + '/../dev.db';
 const databaseAlreadyExists = fs.existsSync(databaseFile);
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database(databaseFile);
 
-// The intended schema
+// The intended schema. This should look like the json format that
+// the schema would get stored as on-disk.
 const schema = {
   GameScore: {
     playerName: 'String',
     score: 'Int',
   }
 };
+
+const sequelize = new Sequelize('dev', 'devuser', 'devpassword', {
+  host: 'localhost',
+  dialect: 'sqlite',
+  storage: databaseFile,
+});
 
 // TODO: migrate the database so that it matches the schema
 
@@ -33,19 +41,6 @@ function graphQLTypeFromTypeString(typeString) {
 
     case 'Int':
       return GraphQLInt;
-
-    default:
-      throw 'unknown typestring: ' + typeString;
-  }
-}
-
-function defaultForTypeString(typeString) {
-  switch (typeString) {
-    case 'String':
-      return 'hello';
-
-    case 'Int':
-      return 42;
 
     default:
       throw 'unknown typestring: ' + typeString;
