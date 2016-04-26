@@ -12,7 +12,8 @@ import express from 'express';
 import graphqlHTTP from 'express-graphql';
 import Sequelize from 'sequelize';
 
-import Type from './Type';
+import ObjectType from './ObjectType';
+import PrimitiveType from './PrimitiveType';
 
 const databaseFile = __dirname + '/../dev.db';
 const databaseAlreadyExists = fs.existsSync(databaseFile);
@@ -21,6 +22,7 @@ const db = new sqlite3.Database(databaseFile);
 
 // The intended schema. This should look like the json format that
 // the schema would get stored as on-disk.
+// Everything gets a non-null string id, as well.
 const schema = {
   GameScore: {
     playerName: 'String',
@@ -38,17 +40,9 @@ const sequelize = new Sequelize('dev', 'devuser', 'devpassword', {
 
 // TODO: migrate the database so that it matches the schema
 
-const GameScoreType = new GraphQLObjectType({
-  name: 'GameScoreType',
-  fields: {
-    playerName: {
-      type: GraphQLString,
-    },
-    score: {
-      type: GraphQLInt,
-    },
-  }
-});
+const GameScoreType = new ObjectType('GameScore', schema.GameScore);
+
+console.log(GameScoreType.graphql);
 
 // Create a graphql schema from the schema
 const gqlSchema = new GraphQLSchema({
@@ -56,7 +50,7 @@ const gqlSchema = new GraphQLSchema({
     name: 'Query',
     fields: {
       highScore: {
-        type: GameScoreType,
+        type: GameScoreType.graphql,
         resolve() {
           return {
             playerName: 'Kevin',

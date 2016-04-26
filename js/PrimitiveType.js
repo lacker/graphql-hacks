@@ -19,6 +19,8 @@ import {
   GraphQLInt,
 } from 'graphql';
 
+import Sequelize from 'sequelize';
+
 const sequelizeMap = {
   Int: Sequelize.INTEGER,
   String: Sequelize.STRING,
@@ -29,7 +31,8 @@ const graphqlMap = {
   String: GraphQLString,
 }
 
-export default class Type {
+export default class PrimitiveType {
+  // Input name is in the "simple format" - "Int" for integer, etc.
   constructor(name) {
     this.name = name;
     this.sequelize = sequelizeMap[name];
