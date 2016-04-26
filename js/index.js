@@ -12,6 +12,8 @@ import express from 'express';
 import graphqlHTTP from 'express-graphql';
 import Sequelize from 'sequelize';
 
+import Type from './Type';
+
 const databaseFile = __dirname + '/../dev.db';
 const databaseAlreadyExists = fs.existsSync(databaseFile);
 const sqlite3 = require('sqlite3').verbose();
@@ -26,6 +28,8 @@ const schema = {
   }
 };
 
+// Schema loading logic
+
 const sequelize = new Sequelize('dev', 'devuser', 'devpassword', {
   host: 'localhost',
   dialect: 'sqlite',
@@ -33,37 +37,6 @@ const sequelize = new Sequelize('dev', 'devuser', 'devpassword', {
 });
 
 // TODO: migrate the database so that it matches the schema
-
-function graphQLTypeFromTypeString(typeString) {
-  switch (typeString) {
-    case 'String':
-      return GraphQLString;
-
-    case 'Int':
-      return GraphQLInt;
-
-    default:
-      throw 'unknown typestring: ' + typeString;
-  }
-}
-
-// Construct the graphql schema from the specified schema
-let rootFields = {};
-for (let typeName in schema) {
-  let objectArg = {
-    name: typeName,
-    fields: {},
-  };
-  for (let fieldName in schema[typeName]) {
-    let typeString = schema[typeName][fieldName];
-    objectArg.fields[fieldName] = {
-      type: graphQLTypeFromTypeString(typeString),
-    }
-  }
-  rootFields[typeName] = new GraphQLObjectType(objectArg);
-}
-// TODO: actually use that code above
-
 
 const GameScoreType = new GraphQLObjectType({
   name: 'GameScoreType',

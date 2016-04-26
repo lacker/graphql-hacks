@@ -8,9 +8,10 @@
 // The type according to GraphQL
 // The type according to our own serialization format
 //
-// The goal of a Type object is to let us pass around a single
+// The goal of a PrimitiveType object is to let us pass around a single
 // object that knows how to represent itself to any of these other
-// systems.
+// systems. It doesn't handle types like objects that are composed of
+// others; it just handles
 
 import {
   graphql,
