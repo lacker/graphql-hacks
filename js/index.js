@@ -30,27 +30,27 @@ const schema = {
   }
 };
 
-// Schema loading logic
+// Load types from the schema
+const GameScore = new ObjectType('GameScore', schema.GameScore);
 
+// Create the database schema
 const sequelize = new Sequelize('dev', 'devuser', 'devpassword', {
   host: 'localhost',
   dialect: 'sqlite',
   storage: databaseFile,
 });
+const GameScoreTable = sequelize.define(
+  'GameScore',
+  GameScore.sequelize,
+  { freezeTableName: true });
 
-// TODO: migrate the database so that it matches the schema
-
-const GameScoreType = new ObjectType('GameScore', schema.GameScore);
-
-console.log(GameScoreType.graphql);
-
-// Create a graphql schema from the schema
+// Create a graphql schema
 const gqlSchema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'Query',
     fields: {
       highScore: {
-        type: GameScoreType.graphql,
+        type: GameScore.graphql,
         resolve() {
           return {
             playerName: 'Kevin',
@@ -62,10 +62,14 @@ const gqlSchema = new GraphQLSchema({
   })
 });
 
-const app = express();
+// Migrate the database if need be, before starting the server
+GameScoreTable.sync().then(() => {
 
-app.use('/graphql', graphqlHTTP({ schema: gqlSchema, graphiql: true }));
+  const app = express();
 
-app.listen(3000, function () {
-  console.log('server running at http://localhost:3000');
+  app.use('/graphql', graphqlHTTP({ schema: gqlSchema, graphiql: true }));
+
+  app.listen(3000, function () {
+    console.log('server running at http://localhost:3000');
+  });
 });
