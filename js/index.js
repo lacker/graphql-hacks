@@ -65,6 +65,13 @@ const gqlSchema = new GraphQLSchema({
 // Migrate the database if need be, before starting the server
 GameScoreTable.sync().then(() => {
 
+  // Add some sample data
+  const table = GameScoreTable.build({
+    playerName: 'Kevin',
+    score: Math.floor(Math.random() * 1000 + 10000),
+  });
+  return table.save();
+}).then(() => {
   const app = express();
 
   app.use('/graphql', graphqlHTTP({ schema: gqlSchema, graphiql: true }));
