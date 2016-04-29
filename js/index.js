@@ -28,6 +28,7 @@ const db = new sqlite3.Database(databaseFile);
 // TODO: add id: String!
 const schema = {
   GameScore: {
+    id: 'String!',
     playerName: 'String',
     score: 'Int',
   }
@@ -42,6 +43,9 @@ const sequelize = new Sequelize('dev', 'devuser', 'devpassword', {
   dialect: 'sqlite',
   storage: databaseFile,
 });
+
+console.log(GameScore.sequelize);
+
 const GameScoreTable = sequelize.define(
   'GameScore',
   GameScore.sequelize,
