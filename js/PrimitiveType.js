@@ -14,7 +14,6 @@
 // others; it just handles
 
 import {
-  graphql,
   GraphQLString,
   GraphQLInt,
 } from 'graphql';

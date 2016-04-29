@@ -9,7 +9,6 @@ import PrimitiveType from './PrimitiveType';
 
 export default class ObjectType {
   // fields maps field name to simple format.
-  // TODO: add 'id'
   constructor(name, fields) {
     this.name = name;
 
