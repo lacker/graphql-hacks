@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon js/index.js --exec babel-node --presets es2015,react,react-native",
-    "test": "jest"
+    "test": "jest --no-cache"
   },
   "repository": {
     "type": "git",
