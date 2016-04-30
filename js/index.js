@@ -20,12 +20,9 @@ const databaseAlreadyExists = fs.existsSync(databaseFile);
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database(databaseFile);
 
-// TODO: add tests
-
 // The intended schema. This should look like the json format that
 // the schema would get stored as on-disk.
 // Everything gets a non-null string id, as well.
-// TODO: add id: String!
 const schema = {
   GameScore: {
     id: 'String!',
@@ -43,8 +40,6 @@ const sequelize = new Sequelize('dev', 'devuser', 'devpassword', {
   dialect: 'sqlite',
   storage: databaseFile,
 });
-
-console.log(GameScore.sequelize);
 
 const GameScoreTable = sequelize.define(
   'GameScore',

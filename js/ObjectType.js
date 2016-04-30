@@ -5,7 +5,7 @@ import {
   GraphQLObjectType,
 } from 'graphql';
 
-import PrimitiveType from './PrimitiveType';
+import typeFromString from './typeFromString';
 
 export default class ObjectType {
   // fields maps field name to simple format.
@@ -16,7 +16,7 @@ export default class ObjectType {
     let graphqlFields = {};
     let sequelizeFields = {};
     for (let field in fields) {
-      let type = new PrimitiveType(fields[field]);
+      let type = typeFromString(fields[field]);
       graphqlFields[field] = {
         type: type.graphql,
       };

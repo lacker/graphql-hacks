@@ -36,5 +36,8 @@ export default class PrimitiveType {
     this.name = name;
     this.sequelize = sequelizeMap[name];
     this.graphql = graphqlMap[name];
+    if (!this.sequelize || !this.graphql) {
+      throw `unrecognized primitive type: [${name}]`
+    }
   }
 }

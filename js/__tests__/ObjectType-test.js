@@ -1,6 +1,9 @@
 jest.unmock('graphql');
 jest.unmock('sequelize');
 jest.unmock('../ObjectType');
+jest.unmock('../typeFromString');
+jest.unmock('../PrimitiveType');
+jest.unmock('../NonNullType');
 
 import ObjectType from '../ObjectType';
 
@@ -12,7 +15,6 @@ describe('object schema', () => {
       }
     };
     const MyThing = new ObjectType('MyThing', schema.MyThing);
-    console.log(MyThing.sequelize);
     expect(MyThing.sequelize.id.type).not.toBeUndefined();
   });
 });

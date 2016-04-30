@@ -9,7 +9,7 @@ import PrimitiveType from './PrimitiveType';
 export default class NonNullType {
   // name is a primitive type string name like 'Int' or 'String'
   constructor(name) {
-    this.subType = new PrimitiveType(name);
+    this.subtype = new PrimitiveType(name);
     this.name = name + '!';
     this.sequelize = {
       type: this.subtype.sequelize,
@@ -17,3 +17,4 @@ export default class NonNullType {
     }
     this.graphql = new GraphQLNonNull(this.subtype.graphql);
   }
+}
