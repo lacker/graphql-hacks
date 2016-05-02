@@ -23,6 +23,9 @@ export default class ObjectType {
       sequelizeFields[field] = {
         type: type.sequelize,
       };
+      if (field === 'id') {
+        sequelizeFields.id.primaryKey = true;
+      }
     }
     this.graphql = new GraphQLObjectType({name, fields: graphqlFields});
     this.sequelize = sequelizeFields;
