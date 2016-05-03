@@ -28,11 +28,16 @@ const schema = {
     id: 'String!',
     playerName: 'String',
     score: 'Int',
-  }
+  },
+  Counter: {
+    id: 'String!',
+    count: 'Int',
+  },
 };
 
 // Load types from the schema
 const GameScore = new ObjectType('GameScore', schema.GameScore);
+const Counter = new ObjectType('Counter', schema.Counter);
 
 // Create the database schema
 const sequelize = new Sequelize('dev', 'devuser', 'devpassword', {
@@ -46,6 +51,12 @@ const GameScoreTable = sequelize.define(
   GameScore.sequelize,
   { freezeTableName: true });
 
+const CounterTable = sequelize.define(
+  'Counter',
+  Counter.sequelize,
+  { freezeTableName: true });
+
+
 // Create a graphql schema
 const gqlSchema = new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -58,6 +69,13 @@ const gqlSchema = new GraphQLSchema({
             playerName: 'Kevin',
             score: 1337,
           }
+        }
+      },
+
+      hello: {
+        type: GraphQLInt,
+        resolve() {
+          return 3;
         }
       }
     }
