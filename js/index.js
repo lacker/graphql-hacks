@@ -56,6 +56,7 @@ const CounterTable = sequelize.define(
   Counter.sequelize,
   { freezeTableName: true });
 
+console.log('TODO: getCounter, fill out');
 
 // Create a graphql schema
 const gqlSchema = new GraphQLSchema({
@@ -71,6 +72,10 @@ const gqlSchema = new GraphQLSchema({
           }
         }
       },
+
+      getCounter: {
+        // TODO: ?
+      }
 
       hello: {
         type: GraphQLInt,
