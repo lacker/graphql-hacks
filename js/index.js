@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import fs from 'fs';
 
 import {
@@ -56,7 +57,18 @@ const CounterTable = sequelize.define(
   Counter.sequelize,
   { freezeTableName: true });
 
-console.log('TODO: getCounter, fill out');
+function randomID() {
+  return crypto.randomBytes(12).toString('base64');
+}
+
+// Returns a promise for an integer.
+function runCount() {
+  return CounterTable.findall().then((results) => {
+    if (results.length == 0) {
+      // TODO: finish
+    }
+  });
+}
 
 // Create a graphql schema
 const gqlSchema = new GraphQLSchema({
@@ -73,9 +85,10 @@ const gqlSchema = new GraphQLSchema({
         }
       },
 
-      getCounter: {
-        // TODO: ?
-      }
+      count: {
+        type: GraphQLInt,
+        resolve: runCount
+      },
 
       hello: {
         type: GraphQLInt,
