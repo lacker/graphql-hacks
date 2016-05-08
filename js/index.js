@@ -65,7 +65,7 @@ function randomID() {
 // TODO: probably some race conditions here
 // TODO: test this
 function runCount() {
-  return CounterTable.findall().then((results) => {
+  return CounterTable.findAll().then((results) => {
     if (results.length == 0) {
       CounterTable.create({
         count: 1,
