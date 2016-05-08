@@ -62,11 +62,23 @@ function randomID() {
 }
 
 // Returns a promise for an integer.
+// TODO: probably some race conditions here
+// TODO: test this
 function runCount() {
   return CounterTable.findall().then((results) => {
     if (results.length == 0) {
-      // TODO: finish
+      CounterTable.create({
+        count: 1,
+        id: randomID(),
+      });
+      return Promise.resolve(1);
     }
+    const result = results[0];
+    console.log('XXX result', result);
+    const newCount = result.count + 1;
+    return CounterTable.update({count: newCount}).then(() => {
+      return newCount;
+    })
   });
 }
 
