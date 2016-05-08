@@ -114,7 +114,8 @@ const gqlSchema = new GraphQLSchema({
 
 // Migrate the database if need be, before starting the server
 GameScoreTable.sync().then(() => {
-
+  return CounterTable.sync();
+}).then(() => {
   // Add some sample data
   const table = GameScoreTable.build({
     playerName: 'Kevin',
