@@ -76,7 +76,10 @@ function runCount() {
     const result = results[0];
     console.log('XXX result', result);
     const newCount = result.count + 1;
-    return CounterTable.update({count: newCount}).then(() => {
+    console.log('XXX newcount', newCount);
+    return CounterTable.update(
+      {where: {}},
+      {count: newCount}).then(() => {
       return newCount;
     })
   });
