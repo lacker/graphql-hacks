@@ -3,10 +3,11 @@ import fs from 'fs';
 
 import {
   graphql,
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLString,
   GraphQLInt,
+  GraphQLList,
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLString,
 } from 'graphql';
 
 import express from 'express';
@@ -74,9 +75,7 @@ function runCount() {
       return Promise.resolve(1);
     }
     const result = results[0];
-    console.log('XXX result', result);
     const newCount = result.count + 1;
-    console.log('XXX newcount', newCount);
     return CounterTable.update(
       {count: newCount},
       {where: {}}).then(() => {
@@ -97,6 +96,13 @@ const gqlSchema = new GraphQLSchema({
             playerName: 'Kevin',
             score: 1337,
           }
+        }
+      },
+
+      findGameScores: {
+        type: new GraphQLList(GameScore.graphql),
+        resolve() {
+          return []; // TODO: improve
         }
       },
 
