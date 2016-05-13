@@ -13,7 +13,7 @@ import {
 import express from 'express';
 import graphqlHTTP from 'express-graphql';
 import Sequelize from 'sequelize';
-import { parseSchemaIntoAST } from 'graphql/utilities';
+import { parse } from 'graphql/language';
 
 import ObjectType from './ObjectType';
 import PrimitiveType from './PrimitiveType';
@@ -38,10 +38,9 @@ const schema = {
 };
 
 
-//
 const body = fs.readFileSync(__dirname + '/../schema.gql', 'utf8');
-const ast = parseSchemaIntoAST(body);
-console.log(ast);
+const ast = parse(body);
+console.log('AST:', ast);
 
 // Load types from the schema
 const GameScore = new ObjectType('GameScore', schema.GameScore);
