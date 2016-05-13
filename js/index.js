@@ -13,6 +13,7 @@ import {
 import express from 'express';
 import graphqlHTTP from 'express-graphql';
 import Sequelize from 'sequelize';
+import { parseSchemaIntoAST } from 'graphql/utilities';
 
 import ObjectType from './ObjectType';
 import PrimitiveType from './PrimitiveType';
@@ -22,8 +23,7 @@ const databaseAlreadyExists = fs.existsSync(databaseFile);
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database(databaseFile);
 
-// The intended schema. This should look like the json format that
-// the schema would get stored as on-disk.
+// The intended schema.
 // Everything gets a non-null string id, as well.
 const schema = {
   GameScore: {
@@ -36,6 +36,12 @@ const schema = {
     count: 'Int',
   },
 };
+
+
+//
+const body = fs.readFileSync(__dirname + '/../schema.gql', 'utf8');
+const ast = parseSchemaIntoAST(body);
+console.log(ast);
 
 // Load types from the schema
 const GameScore = new ObjectType('GameScore', schema.GameScore);

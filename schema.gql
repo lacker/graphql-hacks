@@ -1,0 +1,10 @@
+type GameScore {
+  id: String!
+  playerName: String
+  score: Int
+}
+
+type Counter {
+  id: String!
+  count: Int
+}
