@@ -41,6 +41,19 @@ const schema = {
 const body = fs.readFileSync(__dirname + '/../schema.gql', 'utf8');
 const ast = parse(body);
 console.log('AST:', ast);
+const definitions = ast.definitions;
+console.log('DEF:', definitions);
+
+// TODO: replace schema with this
+let readSchema = {};
+for (let definition of definitions) {
+  let name = definition.name.value;
+  for (let field of definition.fields) {
+    console.log('XXX field:', field);
+  }
+  console.log('XXX name:', name);
+}
+
 
 // Load types from the schema
 const GameScore = new ObjectType('GameScore', schema.GameScore);
