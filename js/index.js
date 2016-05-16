@@ -47,11 +47,14 @@ console.log('DEF:', definitions);
 // TODO: replace schema with this
 let readSchema = {};
 for (let definition of definitions) {
-  let name = definition.name.value;
+  let defName = definition.name.value;
   for (let field of definition.fields) {
     console.log('XXX field:', field);
+    let fieldName = field.name.value;
+    let typeName = field.type.name.value;
+    console.log('XXX f-t:', fieldName, typeName);
   }
-  console.log('XXX name:', name);
+  console.log('XXX defines:', defName);
 }
 
 
