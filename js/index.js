@@ -40,19 +40,31 @@ const schema = {
 
 const body = fs.readFileSync(__dirname + '/../schema.gql', 'utf8');
 const ast = parse(body);
-console.log('AST:', ast);
 const definitions = ast.definitions;
-console.log('DEF:', definitions);
+
+function stringKeyForSchemaField(field) {
+  return field.name.value;
+}
+
+function nameForType(type) {
+  if (type.kind == 'NonNullType') {
+    return nameForType(type.type) + '!';
+  }
+  return type.name.value;
+}
+
+function stringValueForSchemaField(field) {
+  return nameForType(field.type);
+}
 
 // TODO: replace schema with this
 let readSchema = {};
 for (let definition of definitions) {
   let defName = definition.name.value;
   for (let field of definition.fields) {
-    console.log('XXX field:', field);
-    let fieldName = field.name.value;
-    let typeName = field.type.name.value;
-    console.log('XXX f-t:', fieldName, typeName);
+    console.log('XXX k-v:',
+                stringKeyForSchemaField(field),
+                stringValueForSchemaField(field));
   }
   console.log('XXX defines:', defName);
 }
