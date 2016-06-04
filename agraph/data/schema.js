@@ -11,8 +11,6 @@ type Photo {
 }
 
 type Query {
-  hello: String,
-  favoriteNumber: Int,
   getUsers: [User],
   getPhotos: [Photo],
 }
