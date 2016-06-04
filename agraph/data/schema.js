@@ -8,6 +8,7 @@ type User {
 type Photo {
   id: String,
   url: String,
+  user: User,
 }
 
 type Query {
