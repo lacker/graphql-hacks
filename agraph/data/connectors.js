@@ -13,6 +13,15 @@ class InMemoryConnector {
       }],
     };
   }
+
+  getByID(dataName, id) {
+    const datalist = this.data[dataName];
+    for (let obj of datalist) {
+      if (obj.id == id) {
+        return obj;
+      }
+    }
+  }
 }
 
 const connectors = {
