@@ -25,7 +25,7 @@ class InMemoryConnector {
 }
 
 const connectors = {
-  memory: new InMemoryConnector(),
+  memory: InMemoryConnector,
 };
 
 export default connectors;

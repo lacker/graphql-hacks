@@ -8,16 +8,16 @@ type User {
 type Photo {
   id: String,
   url: String,
-  user: User,
 }
 
-type Query {
+type RootQuery {
+  user(id: String): User,
   getUsers: [User],
   getPhotos: [Photo],
 }
 
 schema {
-  query: Query
+  query: RootQuery
 }
 `;
 
