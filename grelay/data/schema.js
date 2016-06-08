@@ -75,20 +75,22 @@ const CommentType = new GraphQLObjectType({
   }),
 });
 
-const queryType = new GraphQLObjectType({
+const QueryType = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
-    node: nodeField,
-    // Add your own root fields here
-    viewer: {
-      type: userType,
-      resolve: () => getViewer(),
+    user: {
+      type: UserType,
+      resolve: () => getUser(),
+    },
+    comment: {
+      type: CommentType,
+      resolve: () => getComment(),
     },
   }),
 });
 
 const schema = new GraphQLSchema({
-  query: queryType,
+  query: QueryType,
 });
 
 export default schema;
