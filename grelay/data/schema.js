@@ -89,8 +89,8 @@ const QueryType = new GraphQLObjectType({
   }),
 });
 
-const schema = new GraphQLSchema({
+const Schema = new GraphQLSchema({
   query: QueryType,
 });
 
-export default schema;
+module.exports = { Schema };
