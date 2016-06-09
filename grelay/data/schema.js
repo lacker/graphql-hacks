@@ -26,15 +26,15 @@ import {
  * The first method defines the way we resolve an ID to its object.
  * The second defines the way we resolve an object to its GraphQL type.
  *
- * TODO: figure if this is garbage
+ * TODO: make this comment saner
  */
 var {nodeInterface, nodeField} = nodeDefinitions(
   (globalId) => {
     var {type, id} = fromGlobalId(globalId);
     if (type === 'User') {
       return getUser(id);
-    } else if (type === 'Widget') {
-      return getWidget(id);
+    } else if (type === 'Comment') {
+      return getComment(id);
     } else {
       return null;
     }
