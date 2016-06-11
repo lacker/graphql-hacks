@@ -17,6 +17,7 @@
     "babel-preset-react": "6.5.0",
     "babel-preset-stage-0": "6.5.0",
     "babel-relay-plugin": "0.8.1",
+    "big-integer": "^1.6.15",
     "chokidar": "1.5.1",
     "classnames": "2.2.5",
     "express": "4.13.4",
