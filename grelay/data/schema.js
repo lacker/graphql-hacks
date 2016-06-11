@@ -15,6 +15,11 @@ import {
 } from 'graphql-relay';
 
 import {
+  makeId,
+  getTypeName,
+} from './ids';
+
+import {
   getUser,
   getComment,
 } from './database';

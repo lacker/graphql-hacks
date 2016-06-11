@@ -6,6 +6,7 @@
   "version": "0.1.0",
   "scripts": {
     "start": "babel-node ./server.js",
+    "test": "jest",
     "update-schema": "babel-node ./scripts/updateSchema.js"
   },
   "dependencies": {
@@ -30,6 +31,7 @@
     "webpack-dev-server": "1.14.1"
   },
   "devDependencies": {
-    "babel-cli": "6.9.0"
+    "babel-cli": "6.9.0",
+    "jest": "^12.1.1"
   }
 }
