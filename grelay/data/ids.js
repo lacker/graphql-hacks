@@ -30,6 +30,16 @@ function unbase62(string) {
   return integer;
 }
 
+// Converts a string to a big integer, treating it as bytes
+function s2int(string) {
+  let integer = bigInt(0);
+  for (let char of string) {
+    const code = char.charCodeAt(0);
+    integer = integer.times(256).plus(code);
+  }
+  return integer;
+}
+
 function choice(alist) {
   return alist[Math.floor(Math.random() * alist.length)]
 }
