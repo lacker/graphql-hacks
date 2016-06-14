@@ -40,6 +40,18 @@ function s2int(string) {
   return integer;
 }
 
+// Converts a big integer back to a string, reverse of s2int
+function int2s(integer) {
+  let integer = bigInt(integer);
+  let chars = [];
+  while (integer > 0) {
+    const {quotient, remainder} = integer.divmod(256);
+    integer = quotient
+    chars.push(String.fromCharCode(remainder));
+  }
+  return chars.join('');
+}
+
 function choice(alist) {
   return alist[Math.floor(Math.random() * alist.length)]
 }
