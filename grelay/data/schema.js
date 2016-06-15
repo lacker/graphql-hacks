@@ -25,15 +25,9 @@ import {
 } from './database';
 
 
-/**
- * We get the node interface and field from the Relay library.
- *
- * The first method defines the way we resolve an ID to its object.
- * The second defines the way we resolve an object to its GraphQL type.
- *
- * TODO: make this comment saner
- */
-var {nodeInterface, nodeField} = nodeDefinitions(
+// This is hacky and only works for specifically the way getUser and
+// getComment operate.
+const {nodeInterface, nodeField} = nodeDefinitions(
   (globalId) => {
     var {type, id} = fromGlobalId(globalId);
     if (type === 'User') {
@@ -45,10 +39,10 @@ var {nodeInterface, nodeField} = nodeDefinitions(
     }
   },
   (obj) => {
-    if (obj instanceof User) {
-      return userType;
-    } else if (obj instanceof Widget)  {
-      return widgetType;
+    if (obj.username) {
+      return UserType;
+    } else if (obj.content)  {
+      return CommentType;
     } else {
       return null;
     }
