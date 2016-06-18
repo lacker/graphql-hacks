@@ -1,15 +1,19 @@
-import Html exposing (button, div, text)
+import Html exposing (button, br, div, text)
 import Html.App exposing (beginnerProgram)
 import Html.Events exposing (onClick)
 
 main =
-  beginnerProgram { model = "world", view = view, update = update }
+  beginnerProgram { model = "sometimes", view = view, update = update }
+
+mbutton msg = button [ onClick msg ] [ text msg ]
 
 view model = div [] [
-              text "hello",
-              button [ onClick "fish" ] [ text (toString model) ]
+              text (toString model),
+              br [] [],
+              mbutton "fish",
+              mbutton "buffalo"
              ]
 
 
 update msg model =
-    msg ++ " " ++ model
+    model ++ " " ++ msg
