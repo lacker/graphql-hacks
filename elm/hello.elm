@@ -1,7 +1,7 @@
 import Html exposing (button, br, div, text)
 import Html.App exposing (beginnerProgram)
 import Html.Events exposing (onClick)
-import List exposing (head)
+import List exposing (head, tail)
 
 main =
   beginnerProgram { model = ["sometimes"], view = view, update = update }
@@ -12,7 +12,8 @@ view model = div [] [
               text (getstring model),
               br [] [],
               mbutton "fish",
-              mbutton "buffalo"
+              mbutton "buffalo",
+              mbutton "undo"
              ]
 
 getstring model =
@@ -22,4 +23,7 @@ getstring model =
 
 
 update msg model =
-    ((getstring model) ++ " " ++ msg) :: model
+    case msg of
+        "undo" -> Maybe.withDefault ["oops"] (tail model)
+        s -> ((getstring model) ++ " " ++ s) :: model
+
