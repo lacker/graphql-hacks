@@ -1,5 +1,6 @@
 import {
   GraphQLObjectType,
+  GraphQLList,
   GraphQLSchema,
   GraphQLString,
 } from 'graphql';
@@ -86,6 +87,10 @@ const QueryType = new GraphQLObjectType({
       type: CommentType,
       resolve: () => getComment(),
     },
+    allUsers: {
+      type: new GraphQLList(UserType),
+      resolve: () => allUsers(),
+    }
   }),
 });
 
