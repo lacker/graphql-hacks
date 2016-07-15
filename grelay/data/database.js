@@ -32,7 +32,12 @@ function getComment(id) {
   };
 };
 
+function allUsers() {
+  return Object.keys(users).map(key => getUser(key));
+}
+
 module.exports = {
   getUser,
   getComment,
+  allUsers,
 };

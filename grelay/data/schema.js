@@ -22,6 +22,7 @@ import {
 import {
   getUser,
   getComment,
+  allUsers,
 } from './database';
 
 
