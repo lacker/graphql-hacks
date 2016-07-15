@@ -41,7 +41,7 @@ function s2int(string) {
 }
 
 // Converts a big integer back to a string, reverse of s2int
-function int2s(integer) {
+function int2s(inputInteger) {
   let integer = bigInt(integer);
   let chars = [];
   while (integer > 0) {
