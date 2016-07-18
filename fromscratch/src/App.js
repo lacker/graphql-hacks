@@ -1,6 +1,25 @@
 import './App.css';
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.png';
+
+class Blink extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {on: true};
+    setInterval(() => {
+      this.setState({ on: !this.state.on });
+    }, 1000);
+  }
+
+  render() {
+    if (this.state.on) {
+      return (
+        {...this.props.children}
+      );
+    }
+    return null;
+  }
+}
 
 export default function App() {
   return (
