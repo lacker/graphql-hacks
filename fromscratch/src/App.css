@@ -1,0 +1,21 @@
+.App {
+  padding: 0px 20px;
+  background-color: #222222;
+  color: #FFFFFF;
+}
+
+body {
+  background-color: #222222;
+}
+
+.App-logo {
+  animation: spin infinite 20s linear;
+  border-radius: 50%;
+  vertical-align: middle;
+  width: 38px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
