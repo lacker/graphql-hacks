@@ -6,9 +6,13 @@ class Blink extends Component {
   constructor(props) {
     super(props);
     this.state = {on: true};
-    setInterval(() => {
+    this.interval = setInterval(() => {
       this.setState({ on: !this.state.on });
     }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
