@@ -1,0 +1,17 @@
+{
+  "name": "fromscratch",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "react-scripts": "file:../../create-react-app/react-scripts-0.0.1.tgz"
+  },
+  "dependencies": {
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1"
+  },
+  "scripts": {
+    "start": "start-react-app",
+    "build": "build-react-app",
+    "eject": "eject-react-app"
+  }
+}
