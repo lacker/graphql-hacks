@@ -5,7 +5,7 @@ import logo from './logo.png';
 class Blink extends Component {
   constructor(props) {
     super(props);
-    this.state = {on: true};
+    this.state = { on: true };
     this.interval = setInterval(() => {
       this.setState({ on: !this.state.on });
     }, 1000);
@@ -18,7 +18,9 @@ class Blink extends Component {
   render() {
     if (this.state.on) {
       return (
-        {...this.props.children}
+        <div>
+          {this.props.children}
+        </div>
       );
     }
     return null;
@@ -34,6 +36,9 @@ export default function App() {
       <p>
         To get started, edit <code>src/App.js</code> and save to reload.
       </p>
+      <Blink>
+        <span>this should blink</span>
+      </Blink>
     </div>
   );
 }
