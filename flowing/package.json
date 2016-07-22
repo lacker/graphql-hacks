@@ -1,0 +1,14 @@
+{
+  "name": "flowing",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dostuff.js",
+  "scripts": {
+    "start": "node dostuff.js"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "immutable": "^3.8.1"
+  }
+}
