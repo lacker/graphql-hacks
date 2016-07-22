@@ -4,6 +4,7 @@ const SortedSet = require('js-sorted-set');
 
 let s = new SortedSet();
 s.insert(1);
+s.insert('x');
 
 function add(x: number): void {
   if (!s.contains(x)) {
