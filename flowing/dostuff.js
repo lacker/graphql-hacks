@@ -1,9 +1,19 @@
-const OrderedSet = require('immutable').OrderedSet;
+const SortedSet = require('js-sorted-set');
 
-let s = new OrderedSet([2, 3, 5]);
+let s = new SortedSet();
+s.insert(1);
+
+function add(x) {
+  if (!s.contains(x)) {
+    s.insert(x);
+  }
+}
 
 while (true) {
-  let first = s.first();
+  let first = s.beginIterator().value();
   console.log(first);
-  s = s.delete(first).add(first * 2).add(first * 3).add(first * 5);
+  add(first * 2);
+  add(first * 3);
+  add(first * 5);
+  s.remove(first);
 }
