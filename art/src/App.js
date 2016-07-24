@@ -1,7 +1,7 @@
 import './App.css';
-import React, { Component } from 'react';
+import React from 'react';
 
-export default class App extends Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {on: true};
@@ -20,10 +20,14 @@ export default class App extends Component {
   }
 
   render() {
-    if (this.state.on) {
-      return (<p>Hello world</p>);
-    } else {
-      return null;
-    }
+    return (
+      <div className="container">
+        <div className="pad" />
+        <svg viewBox="0 0 50 50" className="graphics">
+          <circle cx="25" cy="25" r="20" />
+        </svg>
+        <div className="pad" />
+      </div>
+    );
   }
 }
