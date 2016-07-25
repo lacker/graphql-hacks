@@ -4,11 +4,14 @@ import React from 'react';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {on: true};
+
+    // Time is in milliseconds
+    this.state = {time: 0};
   }
 
   componentDidMount() {
     this.interval = setInterval(this.onTick.bind(this), 20);
+    this.start = (new Date()).getTime();
   }
 
   componentWillUnmount() {
@@ -16,7 +19,8 @@ export default class App extends React.Component {
   }
 
   onTick() {
-    this.setState({on: !this.state.on});
+    let elapsed = (new Date()).getTime() - this.start;
+    this.setState({time: elapsed});
   }
 
   render() {
