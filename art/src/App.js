@@ -26,11 +26,10 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="container">
-        <div className="pad" />
-        <svg viewBox="0 0 50 50" className="graphics">
-          <circle cx="25" cy="25" r="20" />
+        <svg viewBox="0 0 600 600" className="graphics">
+          <rect fill="#222222" width="600" height="600" />
+          <circle fill="#00D8FF" cx="300" cy="300" r="50" />
         </svg>
-        <div className="pad" />
       </div>
     );
   }

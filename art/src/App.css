@@ -7,11 +7,6 @@
 }
 
 .graphics {
-  flex: 2;
-  height: 100px;
-  width: 100px;
-}
-
-.pad {
-  flex: 1;
+  height: 600px;
+  width: 600px;
 }
