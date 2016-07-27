@@ -1,6 +1,17 @@
 import './App.css';
 import React from 'react';
 
+const PERIHELION = 90;
+const APHELION = 257;
+
+const Electron = (props) => {
+  let cx = Math.cos(props.theta) * APHELION;
+  let cy = Math.sin(props.theta) * PERIHELION;
+  return (
+    <circle fill="#00D8FF" cx={cx} cy={cy} r="12" />
+  );
+}
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -24,18 +35,16 @@ export default class App extends React.Component {
   }
 
   render() {
-    let perihelion = 90;
-    let aphelion = 257;
     let frac = (this.state.time % 1000) / 1000;
     let theta = (2 * Math.PI) * frac;
-    let cx = 300 + (Math.cos(theta) * aphelion);
-    let cy = 300 + (Math.sin(theta) * perihelion);
     return (
       <div className="container">
         <svg viewBox="0 0 600 600" className="graphics">
           <rect fill="#222222" width="600" height="600" />
-          <circle fill="#00D8FF" cx="300" cy="300" r="50" />
-          <circle fill="#00D8FF" cx={cx} cy={cy} r="12" />
+          <g transform="translate(300 300)">
+            <circle fill="#00D8FF" cx="0" cy="0" r="50" />
+            <Electron theta={theta} />
+          </g>
         </svg>
       </div>
     );
