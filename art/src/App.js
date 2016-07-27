@@ -44,6 +44,12 @@ export default class App extends React.Component {
           <g transform="translate(300 300)">
             <circle fill="#00D8FF" cx="0" cy="0" r="50" />
             <Electron theta={theta} />
+            <g transform="rotate(120)">
+              <Electron theta={theta} />
+            </g>
+            <g transform="rotate(240)">
+              <Electron theta={theta} />
+            </g>
           </g>
         </svg>
       </div>
