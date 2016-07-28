@@ -88,13 +88,25 @@ export default class App extends React.Component {
 
   render() {
     // frac cycles from 0 to 1
-    // progress goes monotonically up from 0 to 1
     let period = 1000;
     let frac = (this.state.time % period) / period;
-    let startTime = 3000;
-    let finishTime = 6000;
-    let progress = Math.min(1,
-      (Math.max(0, this.state.time - startTime)) / finishTime);
+
+    // progress sits at 0 for a cycle, rises to 1 next cycle, sits
+    // at 1 for a cycle, lowers to 0 for a cycle
+    let cycleLength = 600;
+    let quadFrac = (this.state.time % (cycleLength * 10)) / cycleLength;
+    let progress;
+    if (quadFrac <= 1) {
+      progress = 0;
+    } else if (quadFrac <= 5) {
+      progress = (quadFrac - 1) / 4;
+    } else if (quadFrac <= 6) {
+      progress = 1;
+    } else {
+      progress = (10 - quadFrac) / 4;
+    }
+    progress = progress * progress;
+
     let theta = (2 * Math.PI) * frac;
     return (
       <div className="container">
