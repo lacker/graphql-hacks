@@ -1,5 +1,6 @@
 import express from 'express';
 import graphqlHTTP from 'express-graphql';
+import fs from 'fs';
 
 import {
   GraphQLObjectType,
@@ -7,6 +8,31 @@ import {
   GraphQLInt,
 } from 'graphql';
 
+class Num {
+  constructor(value) {
+    this.value = value;
+  }
+
+  plus(x) {
+    return new Num(this.value + x);
+  }
+
+  minus(x) {
+    return new Num(this.value - x);
+  }
+
+  times(x) {
+    return new Num(this.value * x);
+  }
+}
+
+// Read from schema.graphql
+let body = fs.readFileSync(
+  require.resolve('./schema.graphql'),
+  'utf8');
+console.log('body:', body);
+
+// TODO: make this schema read from .graphql file
 var schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'Query',
@@ -30,7 +56,7 @@ var schema = new GraphQLSchema({
 const app = express();
 
 app.use('/graphql', graphqlHTTP({
-  schema: MyGraphQLSchema,
+  schema: schema,
   graphiql: true
 }));
 

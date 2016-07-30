@@ -1,0 +1,10 @@
+type Num {
+  value: Int
+  plus(value: Int)
+  minus(value: Int)
+  times(value: Int)
+}
+
+query {
+  get(value: Int): Num
+}
