@@ -105,7 +105,7 @@ export default class App extends React.Component {
     } else {
       progress = (10 - quadFrac) / 4;
     }
-    progress = progress * progress;
+    progress *= progress;
 
     let theta = (2 * Math.PI) * frac;
     return (
