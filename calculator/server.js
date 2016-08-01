@@ -6,6 +6,7 @@ import {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLInt,
+  parse,
 } from 'graphql';
 
 class Num {
@@ -31,6 +32,8 @@ let body = fs.readFileSync(
   require.resolve('./schema.graphql'),
   'utf8');
 console.log('body:', body);
+let types = parse(body);
+console.log('types:', types);
 
 // TODO: make this schema read from .graphql file
 var schema = new GraphQLSchema({
