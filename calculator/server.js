@@ -35,23 +35,36 @@ console.log('body:', body);
 let types = parse(body);
 console.log('types:', types);
 
+// TODO: make this read from a .graphql file type
+let NumType = new GraphQLObjectType({
+  name: 'Num',
+  fields: () => ({
+    value: {
+      type: GraphQLInt,
+    },
+    plus: {
+      type: NumType,
+    },
+    minus: {
+      type: NumType,
+    },
+    times: {
+      type: NumType,
+    },
+  }),
+});
+
 // TODO: make this schema read from .graphql file
 var schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'Query',
     fields: {
-      one: {
-        type: GraphQLInt,
-        resolve() {
-          return 1;
+      get: {
+        type: NumType,
+        resolve(_, {value}) {
+          return new Num(value);
         }
       },
-      five: {
-        type: GraphQLInt,
-        resolve() {
-          return 5;
-        }
-      }
     }
   })
 });
