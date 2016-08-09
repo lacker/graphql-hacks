@@ -1,3 +1,4 @@
+import assert from 'assert';
 import express from 'express';
 import graphqlHTTP from 'express-graphql';
 import fs from 'fs';
@@ -31,9 +32,16 @@ class Num {
 let body = fs.readFileSync(
   require.resolve('./schema.graphql'),
   'utf8');
-console.log('body:', body);
-let types = parse(body);
-console.log('types:', types);
+let typeDoc = parse(body);
+assert.equal(typeDoc.kind, 'Document');
+let types = typeDoc.definitions;
+
+console.log(types);
+
+// This function plus schema.graphql should be all you need
+function get(value) {
+  return new Num(value);
+}
 
 // TODO: make this read from a .graphql file type
 let NumType = new GraphQLObjectType({
