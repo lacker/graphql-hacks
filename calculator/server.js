@@ -15,16 +15,16 @@ class Num {
     this.value = value;
   }
 
-  plus(x) {
-    return new Num(this.value + x);
+  plus({value}) {
+    return new Num(this.value + value);
   }
 
-  minus(x) {
-    return new Num(this.value - x);
+  minus({value}) {
+    return new Num(this.value - value);
   }
 
-  times(x) {
-    return new Num(this.value * x);
+  times({value}) {
+    return new Num(this.value * value);
   }
 }
 
@@ -38,6 +38,22 @@ let types = typeDoc.definitions;
 
 console.log(types);
 
+// Returns a function that can be used as a resolver.
+// To use this, the object should have a method on it named after
+// the field that accepts (args, context).
+// It can just be the return value instead of a method, too.
+// The signature for the returned resolver is:
+// resolver(object, args, context)
+function makeResolver(fieldName) {
+  return (object, args, context) => {
+    let prop = object[fieldName];
+    if (prop instanceof Function) {
+      return prop.bind(object)(args, context);
+    }
+    return prop;
+  }
+}
+
 // This function plus schema.graphql should be all you need
 function get(value) {
   return new Num(value);
@@ -49,30 +65,32 @@ let NumType = new GraphQLObjectType({
   fields: () => ({
     value: {
       type: GraphQLInt,
+      resolve: makeResolver('value'),
     },
     plus: {
       type: NumType,
-        args: {
-          value: {
-            type: GraphQLInt,
-          }
-        },
+      args: {
+        value: {
+          type: GraphQLInt,
+        }
+      },
+      resolve: makeResolver('plus'),
     },
     minus: {
       type: NumType,
-        args: {
-          value: {
-            type: GraphQLInt,
-          }
-        },
+      args: {
+        value: {
+          type: GraphQLInt,
+        }
+      },
     },
     times: {
       type: NumType,
-        args: {
-          value: {
-            type: GraphQLInt,
-          }
-        },      
+      args: {
+        value: {
+          type: GraphQLInt,
+        }
+      },
     },
   }),
 });
