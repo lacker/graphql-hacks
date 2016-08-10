@@ -52,12 +52,27 @@ let NumType = new GraphQLObjectType({
     },
     plus: {
       type: NumType,
+        args: {
+          value: {
+            type: GraphQLInt,
+          }
+        },
     },
     minus: {
       type: NumType,
+        args: {
+          value: {
+            type: GraphQLInt,
+          }
+        },
     },
     times: {
       type: NumType,
+        args: {
+          value: {
+            type: GraphQLInt,
+          }
+        },      
     },
   }),
 });
@@ -69,6 +84,11 @@ var schema = new GraphQLSchema({
     fields: {
       get: {
         type: NumType,
+        args: {
+          value: {
+            type: GraphQLInt,
+          }
+        },
         resolve(_, {value}) {
           return new Num(value);
         }
