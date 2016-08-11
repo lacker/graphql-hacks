@@ -28,6 +28,12 @@ class Num {
   }
 }
 
+class Query {
+  get({value}) {
+    return new Num(value);
+  }
+};
+
 // Read from schema.graphql
 let body = fs.readFileSync(
   require.resolve('./schema.graphql'),
@@ -54,11 +60,6 @@ function makeResolver(fieldName) {
   }
 }
 
-// This function plus schema.graphql should be all you need
-function get(value) {
-  return new Num(value);
-}
-
 // TODO: make this read from a .graphql file type
 let NumType = new GraphQLObjectType({
   name: 'Num',
@@ -83,6 +84,7 @@ let NumType = new GraphQLObjectType({
           type: GraphQLInt,
         }
       },
+      resolve: makeResolver('minus'),
     },
     times: {
       type: NumType,
@@ -91,10 +93,12 @@ let NumType = new GraphQLObjectType({
           type: GraphQLInt,
         }
       },
+      resolve: makeResolver('times'),
     },
   }),
 });
 
+// TODO: make this schema be constructed with makeResolver and 'query'
 // TODO: make this schema read from .graphql file
 var schema = new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -107,7 +111,8 @@ var schema = new GraphQLSchema({
             type: GraphQLInt,
           }
         },
-        resolve(_, {value}) {
+        resolve(root, {value}) {
+          console.log('root is:', root);
           return new Num(value);
         }
       },
