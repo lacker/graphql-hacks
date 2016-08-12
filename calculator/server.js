@@ -40,9 +40,7 @@ let body = fs.readFileSync(
   'utf8');
 let typeDoc = parse(body);
 assert.equal(typeDoc.kind, 'Document');
-let types = typeDoc.definitions;
-
-console.log(types);
+let definitions = typeDoc.definitions;
 
 // Returns a function that can be used as a resolver.
 // To use this, the object should have a method on it named after
@@ -60,7 +58,28 @@ function makeResolver(fieldName) {
   }
 }
 
-// TODO: make this read from a .graphql file type
+// Creates a GraphQLObjectType for a non-special type as defined
+// in the definitions list parsed from a graphql file
+function makeObjectType(definitions, typeName) {
+  // Find the right definition
+  let definition;
+  for (let d of definitions) {
+    if (d.kind == 'ObjectTypeDefinition' &&
+        d.name.value == typeName) {
+      definition = d;
+    }
+  }
+  if (!definition) {
+    throw new Error('no definition found for type with name: ' + typeName);
+  }
+
+  // TODO: implement
+  console.log('definition of', typeName, 'is:', definition);
+}
+
+makeObjectType('Num');
+
+// TODO: make this use the above makeObjectType line instead
 let NumType = new GraphQLObjectType({
   name: 'Num',
   fields: () => ({
