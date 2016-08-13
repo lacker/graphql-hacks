@@ -58,6 +58,16 @@ function makeResolver(fieldName) {
   }
 }
 
+function typeFromTypeName(typeName) {
+  switch (typeName) {
+    case 'Int':
+    return GraphQLInt;
+
+    default:
+    throw new Error('typeFromTypeName does not handle ' + typeName);
+  }
+}
+
 // Creates a GraphQLObjectType for a non-special type as defined
 // in the definitions list parsed from a graphql file
 function makeObjectType(definitions, typeName) {
@@ -78,8 +88,14 @@ function makeObjectType(definitions, typeName) {
   // values are objects with `type`, `resolve`, and maybe `args`.
   let fieldMap = {};
   for (let field of definition.fields) {
-    // TODO: extract type, resolve, and args
-    console.log('field:', field);
+    let fieldName = field.name.value;
+    let resolve = makeResolver(fieldName);
+
+    // TODO: extract type and args in addition to resolve
+    console.log(fieldName, 'field is:', field);
+    fieldMap[fieldName] = {
+      resolve
+    };
   }
 }
 
