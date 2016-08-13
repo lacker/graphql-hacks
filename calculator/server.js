@@ -77,7 +77,7 @@ function makeObjectType(definitions, typeName) {
   console.log('definition of', typeName, 'is:', definition);
 }
 
-makeObjectType('Num');
+makeObjectType(definitions, 'Num');
 
 // TODO: make this use the above makeObjectType line instead
 let NumType = new GraphQLObjectType({
