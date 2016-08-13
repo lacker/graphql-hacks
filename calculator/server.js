@@ -73,8 +73,14 @@ function makeObjectType(definitions, typeName) {
     throw new Error('no definition found for type with name: ' + typeName);
   }
 
-  // TODO: implement
-  console.log('definition of', typeName, 'is:', definition);
+  // Construct the fields argument to be used in the GraphQLObjectType
+  // constructor. The keys of fieldMap are the names of fields, and their
+  // values are objects with `type`, `resolve`, and maybe `args`.
+  let fieldMap = {};
+  for (let field of definition.fields) {
+    // TODO: extract type, resolve, and args
+    console.log('field:', field);
+  }
 }
 
 makeObjectType(definitions, 'Num');
