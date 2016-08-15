@@ -90,24 +90,29 @@ function makeObjectType(definitions, typeName) {
     throw new Error('no definition found for type with name: ' + typeName);
   }
 
-  // Construct the fields argument to be used in the GraphQLObjectType
-  // constructor. The keys of fieldMap are the names of fields, and their
-  // values are objects with `type`, `resolve`, and maybe `args`.
-  let fieldMap = {};
-  for (let field of definition.fields) {
-    let fieldName = field.name.value;
-    let resolve = makeResolver(fieldName);
+  let fields = () => {
+    // Construct the fields argument to be used in the GraphQLObjectType
+    // constructor. The keys of fieldMap are the names of fields, and their
+    // values are objects with `type`, `resolve`, and maybe `args`.
+    // This happens in the thunk so that we can grab type names
+    // recursively and use memoization.
+    let fieldMap = {};
+    for (let field of definition.fields) {
+      let fieldName = field.name.value;
+      let resolve = makeResolver(fieldName);
 
-    // TODO: extract type and args in addition to resolve
-    console.log(fieldName, 'field is:', field);
-    fieldMap[fieldName] = {
-      resolve
-    };
-  }
+      // TODO: extract type and args in addition to resolve
+      console.log(fieldName, 'field is:', field);
+      fieldMap[fieldName] = {
+        resolve
+      };
+    }
+    return fieldMap;
+  };
 
   objectTypeCache[typeName] = new GraphQLObjectType({
     name: typeName,
-    fields: fieldMap,
+    fields,
   });
   return objectTypeCache[typeName];
 }
