@@ -58,6 +58,7 @@ function makeResolver(fieldName) {
   }
 }
 
+// TODO: figure out how this can refer to object types
 function typeFromTypeName(typeName) {
   switch (typeName) {
     case 'Int':
@@ -69,8 +70,14 @@ function typeFromTypeName(typeName) {
 }
 
 // Creates a GraphQLObjectType for a non-special type as defined
-// in the definitions list parsed from a graphql file
+// in the definitions list parsed from a graphql file.
+// NOTE: this caches based on type name, so don't parse multiple files
+let objectTypeCache = {};
 function makeObjectType(definitions, typeName) {
+  if (objectTypeCache[typeName]) {
+    return objectTypeCache[typeName];
+  }
+
   // Find the right definition
   let definition;
   for (let d of definitions) {
@@ -97,6 +104,12 @@ function makeObjectType(definitions, typeName) {
       resolve
     };
   }
+
+  objectTypeCache[typeName] = new GraphQLObjectType({
+    name: typeName,
+    fields: fieldMap,
+  });
+  return objectTypeCache[typeName];
 }
 
 makeObjectType(definitions, 'Num');
