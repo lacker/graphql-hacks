@@ -34,14 +34,6 @@ class Query {
   }
 };
 
-// Read from schema.graphql
-let body = fs.readFileSync(
-  require.resolve('./schema.graphql'),
-  'utf8');
-let typeDoc = parse(body);
-assert.equal(typeDoc.kind, 'Document');
-let definitions = typeDoc.definitions;
-
 // Returns a function that can be used as a resolver.
 // To use this, the object should have a method on it named after
 // the field that accepts (args, context).
@@ -58,69 +50,82 @@ function makeResolver(fieldName) {
   }
 }
 
-// TODO: figure out how this can refer to object types
-function typeFromTypeName(typeName) {
-  switch (typeName) {
-    case 'Int':
-    return GraphQLInt;
+// Reads a bunch of types from a file
+class TypeSet {
+  constructor(filename) {
+    let body = fs.readFileSync(filename, 'utf8');
+    let typeDoc = parse(body);
+    assert.equal(typeDoc.kind, 'Document');
+    this.definitions = typeDoc.definitions;
 
-    default:
-    throw new Error('typeFromTypeName does not handle ' + typeName);
+    // Cache of type name to type object
+    this.objectTypeCache = {};
+  }
+
+  // TODO: why is this not the same as makeObjectType
+  typeFromTypeName(typeName) {
+    switch (typeName) {
+      case 'Int':
+      return GraphQLInt;
+
+      default:
+      throw new Error('typeFromTypeName does not handle ' + typeName);
+    }
+  }
+
+  // Creates a GraphQLObjectType for a non-special type as defined
+  // in the definitions list parsed from a graphql file.
+  makeObjectType(typeName) {
+    if (this.objectTypeCache[typeName]) {
+      return this.objectTypeCache[typeName];
+    }
+
+    // Find the right definition
+    let definition;
+    for (let d of this.definitions) {
+      if (d.kind == 'ObjectTypeDefinition' &&
+          d.name.value == typeName) {
+        definition = d;
+      }
+    }
+    if (!definition) {
+      throw new Error('no definition found for type with name: ' + typeName);
+    }
+
+    let fields = () => {
+      // Construct the fields argument to be used in the GraphQLObjectType
+      // constructor. The keys of fieldMap are the names of fields, and their
+      // values are objects with `type`, `resolve`, and maybe `args`.
+      // This happens in the thunk so that we can grab type names
+      // recursively and use memoization.
+      let fieldMap = {};
+      for (let field of definition.fields) {
+        let fieldName = field.name.value;
+        let resolve = makeResolver(fieldName);
+
+        // TODO: extract type and args in addition to resolve
+        console.log(fieldName, 'field is:', field);
+        let typeName = field.type.name.value;
+        fieldMap[fieldName] = {
+          resolve
+        };
+      }
+      return fieldMap;
+    };
+
+    this.objectTypeCache[typeName] = new GraphQLObjectType({
+      name: typeName,
+      fields,
+    });
+    return this.objectTypeCache[typeName];
   }
 }
 
-// Creates a GraphQLObjectType for a non-special type as defined
-// in the definitions list parsed from a graphql file.
-// NOTE: this caches based on type name, so don't parse multiple files
-let objectTypeCache = {};
-function makeObjectType(definitions, typeName) {
-  if (objectTypeCache[typeName]) {
-    return objectTypeCache[typeName];
-  }
+let typeSet = new TypeSet(require.resolve('./schema.graphql'));
+let NumType = typeSet.makeObjectType('Num');
 
-  // Find the right definition
-  let definition;
-  for (let d of definitions) {
-    if (d.kind == 'ObjectTypeDefinition' &&
-        d.name.value == typeName) {
-      definition = d;
-    }
-  }
-  if (!definition) {
-    throw new Error('no definition found for type with name: ' + typeName);
-  }
-
-  let fields = () => {
-    // Construct the fields argument to be used in the GraphQLObjectType
-    // constructor. The keys of fieldMap are the names of fields, and their
-    // values are objects with `type`, `resolve`, and maybe `args`.
-    // This happens in the thunk so that we can grab type names
-    // recursively and use memoization.
-    let fieldMap = {};
-    for (let field of definition.fields) {
-      let fieldName = field.name.value;
-      let resolve = makeResolver(fieldName);
-
-      // TODO: extract type and args in addition to resolve
-      console.log(fieldName, 'field is:', field);
-      fieldMap[fieldName] = {
-        resolve
-      };
-    }
-    return fieldMap;
-  };
-
-  objectTypeCache[typeName] = new GraphQLObjectType({
-    name: typeName,
-    fields,
-  });
-  return objectTypeCache[typeName];
-}
-
-makeObjectType(definitions, 'Num');
-
-// TODO: make this use the above makeObjectType line instead
-let NumType = new GraphQLObjectType({
+// TODO: remove after I make this use the above makeObjectType line instead
+let NumTypeOld = new GraphQLObjectType({
   name: 'Num',
   fields: () => ({
     value: {
