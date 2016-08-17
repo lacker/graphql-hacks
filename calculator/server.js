@@ -62,20 +62,19 @@ class TypeSet {
     this.objectTypeCache = {};
   }
 
-  // TODO: why is this not the same as makeObjectType
-  typeFromTypeName(typeName) {
-    switch (typeName) {
+  // Returns the GraphQL type based on a name.
+  // This works both for things like "Int" that can be handled by default,
+  // and for any custom types that are only defined in this schema.
+  getType(typeName) {
+    switch(typeName) {
       case 'Int':
       return GraphQLInt;
-
+      case 'String':
+      return GraphQLString;
       default:
-      throw new Error('typeFromTypeName does not handle ' + typeName);
+      // We have to read it from the schema.
     }
-  }
 
-  // Creates a GraphQLObjectType for a non-special type as defined
-  // in the definitions list parsed from a graphql file.
-  makeObjectType(typeName) {
     if (this.objectTypeCache[typeName]) {
       return this.objectTypeCache[typeName];
     }
@@ -94,8 +93,8 @@ class TypeSet {
 
     let fields = () => {
       // Construct the fields argument to be used in the GraphQLObjectType
-      // constructor. The keys of fieldMap are the names of fields, and their
-      // values are objects with `type`, `resolve`, and maybe `args`.
+      // constructor. The keys of fieldMap are the names of fields, and
+      // their values are objects with `type`, `resolve`, and maybe `args`.
       // This happens in the thunk so that we can grab type names
       // recursively and use memoization.
       let fieldMap = {};
@@ -103,11 +102,13 @@ class TypeSet {
         let fieldName = field.name.value;
         let resolve = makeResolver(fieldName);
 
-        // TODO: extract type and args in addition to resolve
+        // TODO: extract args in addition to resolve and type
         console.log(fieldName, 'field is:', field);
         let typeName = field.type.name.value;
+        let type = this.getType(typeName);
         fieldMap[fieldName] = {
-          resolve
+          resolve,
+          type
         };
       }
       return fieldMap;
@@ -122,7 +123,7 @@ class TypeSet {
 }
 
 let typeSet = new TypeSet(require.resolve('./schema.graphql'));
-let NumType = typeSet.makeObjectType('Num');
+let NumType = typeSet.getType('Num');
 
 // TODO: remove after I make this use the above makeObjectType line instead
 let NumTypeOld = new GraphQLObjectType({
