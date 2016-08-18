@@ -4,9 +4,10 @@ import graphqlHTTP from 'express-graphql';
 import fs from 'fs';
 
 import {
+  GraphQLInt,
   GraphQLObjectType,
   GraphQLSchema,
-  GraphQLInt,
+  GraphQLString,
   parse,
 } from 'graphql';
 
@@ -103,12 +104,21 @@ class TypeSet {
         let resolve = makeResolver(fieldName);
 
         // TODO: extract args in addition to resolve and type
-        console.log(fieldName, 'field is:', field);
+        console.log('\nargs for', fieldName, 'field:');
+        let args = {};
+        for (let arg of field.arguments) {
+          let argName = arg.name.value;
+          let argTypeName = arg.type.name.value;
+          let argType = this.getType(argTypeName);
+          console.log(argName, '->', argTypeName, argType);
+          args[argName] = argType;
+        }
         let typeName = field.type.name.value;
         let type = this.getType(typeName);
         fieldMap[fieldName] = {
           resolve,
-          type
+          type,
+          args,
         };
       }
       return fieldMap;
