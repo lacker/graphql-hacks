@@ -111,7 +111,7 @@ class TypeSet {
           let argTypeName = arg.type.name.value;
           let argType = this.getType(argTypeName);
           console.log(argName, '->', argTypeName, argType);
-          args[argName] = argType;
+          args[argName] = { type: argType };
         }
         let typeName = field.type.name.value;
         let type = this.getType(typeName);
