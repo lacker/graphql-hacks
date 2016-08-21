@@ -11,7 +11,7 @@ describe('the calculator schema', () => {
       }
     }`;
     return graphql(schema, query).then((response) => {
-      console.log('response:', response);
+      expect(response.data.get.plus.value).toBe(4);
     });
   });
 });
