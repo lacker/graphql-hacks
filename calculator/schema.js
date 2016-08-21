@@ -99,10 +99,10 @@ class TypeSet {
       let fieldMap = {};
       for (let field of definition.fields) {
         let fieldName = field.name.value;
+
+        // TODO: see if we can avoid makeResolver
         let resolve = makeResolver(fieldName);
 
-        // TODO: extract args in addition to resolve and type
-        console.log('\nargs for', fieldName, 'field:');
         let args = {};
         for (let arg of field.arguments) {
           let argName = arg.name.value;
