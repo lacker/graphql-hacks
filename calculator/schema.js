@@ -133,46 +133,6 @@ class TypeSet {
 let typeSet = new TypeSet(require.resolve('./schema.graphql'));
 let NumType = typeSet.getType('Num');
 
-// TODO: remove after I make this use the above makeObjectType line instead
-let NumTypeOld = new GraphQLObjectType({
-  name: 'Num',
-  fields: () => ({
-    value: {
-      type: GraphQLInt,
-      resolve: makeResolver('value'),
-    },
-    plus: {
-      type: NumType,
-      args: {
-        value: {
-          type: GraphQLInt,
-        }
-      },
-      resolve: makeResolver('plus'),
-    },
-    minus: {
-      type: NumType,
-      args: {
-        value: {
-          type: GraphQLInt,
-        }
-      },
-      resolve: makeResolver('minus'),
-    },
-    times: {
-      type: NumType,
-      args: {
-        value: {
-          type: GraphQLInt,
-        }
-      },
-      resolve: makeResolver('times'),
-    },
-  }),
-});
-
-// TODO: make this schema be constructed with makeResolver and 'query'
-// TODO: make this schema read from .graphql file
 var schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'Query',
@@ -184,8 +144,7 @@ var schema = new GraphQLSchema({
             type: GraphQLInt,
           }
         },
-        resolve(root, {value}) {
-          console.log('root is:', root);
+        resolve(_, {value}) {
           return new Num(value);
         }
       },
