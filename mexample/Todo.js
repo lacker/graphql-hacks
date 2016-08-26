@@ -1,3 +1,5 @@
-module.exports = class Todo {
-  
+class Todo {
+
 }
+
+module.exports = Todo;

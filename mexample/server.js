@@ -1,11 +1,9 @@
-// TODO: use require so that it works in straight node
-import buildSchema from 'graphql';
-import graphqlHTTP from 'express-graphql';
+var { buildSchema } = require('graphql');
+var graphqlHTTP = require('express-graphql');
+var express = require('express');
+var mongo = require('./mongo');
 
-const app = express();
-
-// TODO: more features besides login + adding a todo
-const schema = buildSchema(`
+var schema = buildSchema(`
   type Todo {
     id: String
     text: String
@@ -29,9 +27,12 @@ const schema = buildSchema(`
   }
 `);
 
+var app = express();
 app.use('/graphql', graphqlHTTP({
   schema,
   graphiql: true
 }));
 
-app.listen(3000);
+mongo.connect().then(() => {
+  app.listen(4000);
+})
