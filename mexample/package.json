@@ -2,9 +2,9 @@
   "name": "mexample",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -18,5 +18,8 @@
     "jsonwebtoken": "^7.1.9",
     "mongodb": "^2.2.8",
     "mongodb-prebuilt": "^5.0.6"
+  },
+  "devDependencies": {
+    "nodemon": "^1.10.2"
   }
 }
