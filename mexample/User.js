@@ -1,3 +1,4 @@
+var auth = require('./auth');
 var mongo = require('./mongo');
 
 class User {
@@ -23,7 +24,7 @@ function signup({username, password}) {
     if (data) {
       throw 'There is already a user with this username.';
     } else {
-      // TODO: return an auth token
+      return auth.createToken({username});
     }
   });
 }

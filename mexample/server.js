@@ -1,6 +1,8 @@
 var { buildSchema } = require('graphql');
 var graphqlHTTP = require('express-graphql');
 var express = require('express');
+
+var auth = require('./auth');
 var mongo = require('./mongo');
 
 var schema = buildSchema(`
@@ -27,6 +29,7 @@ var schema = buildSchema(`
 `);
 
 var app = express();
+app.use(auth.middleware);
 app.use('/graphql', graphqlHTTP({
   schema,
   graphiql: true
