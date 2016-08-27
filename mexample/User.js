@@ -1,5 +1,31 @@
-class User {
+var mongo = require('./mongo');
 
+class User {
+  constructor(username) {
+    this.username = username;
+  }
 }
 
-module.exports = User;
+// Returns a promise for the User.
+// Fails if this username is already taken.
+function signup({username, password}) {
+  // TODO: create hashedPassword
+  return mongo.db.user.findAndModify({
+    query: {username},
+    update: {
+      $setOnInsert: {
+        username,
+        hashedPassword,
+      }
+    },
+    upsert: true
+  }).then((data) => {
+    if (data) {
+      throw 'There is already a user with this username.';
+    } else {
+      // TODO: return an auth token
+    }
+  });
+}
+
+module.exports = { User, signup };

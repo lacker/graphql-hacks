@@ -13,16 +13,15 @@ var schema = buildSchema(`
   type User {
     username: String
     todos: [Todo]
-    authToken: String
   }
 
   type Query {
     me: User
-    login(username: String, password: String): User
   }
 
   type Mutation {
-    signup(username: String, password: String): User
+    login(username: String, password: String): String
+    signup(username: String, password: String): String
     addTodo(text: String): Todo
   }
 `);
@@ -35,4 +34,5 @@ app.use('/graphql', graphqlHTTP({
 
 mongo.connect().then(() => {
   app.listen(4000);
+  console.log('Running server on port 4000');
 })
