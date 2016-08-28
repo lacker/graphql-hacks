@@ -1,3 +1,5 @@
+var bcrypt = require('bcrypt');
+
 var auth = require('./auth');
 var mongo = require('./mongo');
 
@@ -11,7 +13,7 @@ class User {
 // Returns a promise for an auth token.
 // Fails if this username is already taken.
 function signup({username, password}) {
-  // TODO: create hashedPassword
+  var hashedPassword = bcrypt.hashSync(password, 10);
   return mongo.db.user.findAndModify({
     query: {username},
     update: {
@@ -37,7 +39,16 @@ function login({username, password}) {
   return mongo.db.user.findOne({
     username
   }).then((data) => {
-    // TODO: check the password
+    if (bcrypt.compareSync(password, hashedPassword)) {
+      // Login succeeded
+      return auth.createToken({username});
+    } else {
+      // Wrong password
+      throw new Error('Invalid username + password');
+    }
+  }).catch((err) => {
+    // No such username
+    throw new Error('Invalid username + password');
   });
 }
 
