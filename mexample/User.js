@@ -7,7 +7,8 @@ class User {
   }
 }
 
-// Returns a promise for the User.
+// Creates a new user.
+// Returns a promise for an auth token.
 // Fails if this username is already taken.
 function signup({username, password}) {
   // TODO: create hashedPassword
@@ -26,6 +27,17 @@ function signup({username, password}) {
     } else {
       return auth.createToken({username});
     }
+  });
+}
+
+// Finds a new user with a given username and password.
+// Returns a promise for an auth token.
+// Fails if the login information is invalid.
+function login({username, password}) {
+  return mongo.db.user.findOne({
+    username
+  }).then((data) => {
+    // TODO: check the password
   });
 }
 
