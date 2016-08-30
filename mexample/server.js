@@ -4,11 +4,11 @@ var express = require('express');
 
 var auth = require('./auth');
 var mongo = require('./mongo');
-var { signup, login } = require('./User');
+var User = require('./User');
 
 var schema = buildSchema(`
   type Todo {
-    id: String
+    id: Int
     text: String
     completed: Boolean
   }
@@ -30,8 +30,8 @@ var schema = buildSchema(`
 `);
 
 var root = {
-  login,
-  signup,
+  login: User.login,
+  signup: User.signup,
 };
 
 var app = express();
