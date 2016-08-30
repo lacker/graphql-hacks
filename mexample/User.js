@@ -52,4 +52,4 @@ function login({username, password}) {
   });
 }
 
-module.exports = { User, signup };
+module.exports = { User, login, signup };

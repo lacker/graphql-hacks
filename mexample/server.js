@@ -4,6 +4,7 @@ var express = require('express');
 
 var auth = require('./auth');
 var mongo = require('./mongo');
+var { signup, login } = require('./User');
 
 var schema = buildSchema(`
   type Todo {
@@ -28,11 +29,17 @@ var schema = buildSchema(`
   }
 `);
 
+var root = {
+  login,
+  signup,
+};
+
 var app = express();
 app.use(auth.middleware);
 app.use('/graphql', graphqlHTTP({
   schema,
-  graphiql: true
+  rootValue: root,
+  graphiql: true,
 }));
 
 mongo.connect().then(() => {
