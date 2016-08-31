@@ -12,8 +12,10 @@ class Todo {
   }
 
   // Returns a promise for a list of todos with the given username
-  findByUsername(username) {
-    // TODO: implement
+  static findByUsername(username) {
+    return mongo.db.todo.find({username}).toArray().then((items) => {
+      return items.map(item => new Todo(item));
+    });
   }
 }
 

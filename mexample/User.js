@@ -51,6 +51,19 @@ class User {
       throw new Error('Invalid username + password');
     });
   }
+
+  todos() {
+    return Todo.findByUsername(this.username);
+  }
+
+  me({}, request) {
+    if (!request.user || !request.user.username) {
+      throw new Error('there is no me');
+    }
+    return mongo.db.user.findOne({username}).then((data) => {
+      return new User(username);
+    });
+  }
 }
 
 

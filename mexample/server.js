@@ -32,6 +32,7 @@ var schema = buildSchema(`
 var root = {
   login: User.login,
   signup: User.signup,
+  me: User.me,
 };
 
 var app = express();
