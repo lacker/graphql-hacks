@@ -17,6 +17,13 @@ class Todo {
       return items.map(item => new Todo(item));
     });
   }
+
+  static addTodo({text}, request) {
+    if (!request.user || !request.user.username) {
+      throw new Error('must be logged in to call addTodo');
+    }
+    // TODO: create the todo
+  }
 }
 
 module.exports = Todo;
