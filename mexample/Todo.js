@@ -22,7 +22,15 @@ class Todo {
     if (!request.user || !request.user.username) {
       throw new Error('must be logged in to call addTodo');
     }
-    // TODO: create the todo
+    var content = {
+      id: uuid.v4(),
+      username: request.user.username,
+      text,
+      completed: false,
+    };
+    return mongo.db.todo.insert(content).then(() => {
+      return new Todo(content);
+    })
   }
 }
 
