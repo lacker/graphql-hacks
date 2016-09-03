@@ -32,6 +32,13 @@ class Todo {
       return new Todo(content);
     })
   }
+
+  static deleteTodo({id}, request) {
+    if (!request.user || !request.user.username) {
+      throw new Error('must be logged in to call deleteTodo');
+    }
+    // TODO: delete the todo
+  }
 }
 
 module.exports = Todo;

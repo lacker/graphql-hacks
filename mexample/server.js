@@ -8,7 +8,7 @@ var User = require('./User');
 
 var schema = buildSchema(`
   type Todo {
-    id: Int
+    id: String
     text: String
     completed: Boolean
   }
@@ -26,6 +26,7 @@ var schema = buildSchema(`
     login(username: String, password: String): String
     signup(username: String, password: String): String
     addTodo(text: String): Todo
+    deleteTodo(id: String): Boolean
   }
 `);
 
