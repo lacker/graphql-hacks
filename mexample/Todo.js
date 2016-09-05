@@ -37,7 +37,10 @@ class Todo {
     if (!request.user || !request.user.username) {
       throw new Error('must be logged in to call deleteTodo');
     }
-    // TODO: delete the todo
+    return mongo.db.todo.deleteOne({
+      id: id,
+      username: request.user.username,
+    });
   }
 }
 
