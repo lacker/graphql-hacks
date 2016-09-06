@@ -40,6 +40,8 @@ class Todo {
     return mongo.db.todo.deleteOne({
       id: id,
       username: request.user.username,
+    }).then(() => {
+      return true;
     });
   }
 }
