@@ -49,7 +49,10 @@ var root = {
 };
 
 var app = express();
-app.use(auth.middleware);
+app.use(expressJWT({
+  secret: SECRET,
+  credentialsRequired: false,
+}));
 app.use('/graphql', graphqlHTTP({
   schema,
   rootValue: root,
