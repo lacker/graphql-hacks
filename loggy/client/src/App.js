@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 // Returns a promise that resolves with data on success, or
 // rejects with error on failure.
-function runQuery(query) {
+function runGraphQL(query, variables) {
   return new Promise(function(resolve, reject) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -16,7 +16,7 @@ function runQuery(query) {
         reject(xhr.response.error);
       }
     }
-    xhr.send(JSON.stringify({query: query}));
+    xhr.send(JSON.stringify({query: query, variables: variables}));
   });
 }
 
@@ -69,14 +69,47 @@ class UsernamePasswordForm extends Component {
 }
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.signup = this.signup.bind(this);
+    this.login = this.login.bind(this);
+  }
+
+  signup(username, password) {
+    runGraphQL(`{
+      signup(username: $username, password: $password)
+    }`, {
+      username,
+      password
+    }).then((response) => {
+      this.setState({username});
+    }).catch((error) => {
+      console.log('error in signup');
+    });
+  }
+
+  login(username, password) {
+    runGraphQL(`{
+      login(username: $username, password: $password)
+    }`, {
+      username,
+      password
+    }).then((response) => {
+      this.setState({username});
+    }).catch((error) => {
+      console.log('error in login');
+    });
+  }
+
   render() {
     if (!this.state.username) {
       return (
         <div>
           <p>sign up with a new account:</p>
-          <UsernamePasswordForm onSubmit={'TODO'} value='sign up' />
+          <UsernamePasswordForm onSubmit={this.signup} value='sign up' />
           <p>log in with an existing account:</p>
-          <UsernamePasswordForm onSubmit={'TODO'} value='log in' />
+          <UsernamePasswordForm onSubmit={this.login} value='log in' />
         </div>
       );
     }
