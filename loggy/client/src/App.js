@@ -1,5 +1,25 @@
 import React, { Component } from 'react';
 
+// Returns a promise that resolves with data on success, or
+// rejects with error on failure.
+function runQuery(query) {
+  return new Promise(function(resolve, reject) {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+    xhr.open("POST", "/graphql");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.onload = function() {
+      if (xhr.response.data) {
+        resolve(data);
+      } else {
+        reject(xhr.response.error);
+      }
+    }
+    xhr.send(JSON.stringify({query: query}));
+  });
+}
+
 class UsernamePasswordForm extends Component {
   constructor(props) {
     super(props);
