@@ -11,7 +11,7 @@ function runGraphQL(query, variables) {
     xhr.setRequestHeader("Accept", "application/json");
     xhr.onload = function() {
       if (xhr.response.data) {
-        resolve(data);
+        resolve(xhr.response.data);
       } else {
         reject(xhr.response.error);
       }
@@ -85,7 +85,7 @@ class App extends Component {
     }).then((response) => {
       this.setState({username});
     }).catch((error) => {
-      console.log('error in signup');
+      console.log('error in signup:', error);
     });
   }
 
