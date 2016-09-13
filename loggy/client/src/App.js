@@ -16,7 +16,9 @@ function runGraphQL(query, variables) {
         reject(xhr.response.error);
       }
     }
-    xhr.send(JSON.stringify({query: query, variables: variables}));
+    var payload = JSON.stringify({query: query, variables: variables});
+    console.log('payload:', payload);
+    xhr.send(payload);
   });
 }
 
@@ -24,7 +26,8 @@ class UsernamePasswordForm extends Component {
   constructor(props) {
     super(props);
 
-    this.onSubmit = () => {
+    this.onSubmit = (e) => {
+      e.preventDefault();
       props.onSubmit(this.state.username, this.state.password);
     };
 
@@ -41,7 +44,7 @@ class UsernamePasswordForm extends Component {
     this.setState({username: event.target.value})
   }
 
-  onPasswordChange(password) {
+  onPasswordChange(event) {
     this.setState({password: event.target.value})
   }
 
@@ -52,6 +55,7 @@ class UsernamePasswordForm extends Component {
         <br />
         <input
           type='text'
+          autoComplete='off'
           onChange={this.onUsernameChange}
           value={this.state.username} />
         <br />
@@ -59,6 +63,7 @@ class UsernamePasswordForm extends Component {
         <br />
         <input
           type='password'
+          autoComplete='off'
           onChange={this.onPasswordChange}
           value={this.state.password} />
         <br /><br />
@@ -71,17 +76,20 @@ class UsernamePasswordForm extends Component {
 class App extends Component {
   constructor(props) {
     super(props);
+    console.log('mounting App');
+
+    this.state = {username: null};
 
     this.signup = this.signup.bind(this);
     this.login = this.login.bind(this);
   }
 
   signup(username, password) {
-    runGraphQL(`{
+    runGraphQL(`mutation {
       signup(username: $username, password: $password)
     }`, {
-      username,
-      password
+      'username': username,
+      'password': password
     }).then((response) => {
       this.setState({username});
     }).catch((error) => {
@@ -90,7 +98,7 @@ class App extends Component {
   }
 
   login(username, password) {
-    runGraphQL(`{
+    runGraphQL(`mutation {
       login(username: $username, password: $password)
     }`, {
       username,

@@ -30,20 +30,26 @@ var schema = buildSchema(`
 var root = {
   login: function({username, password}) {
     if (!password || password !== PASSWORDS[username]) {
+      console.log(`login as ${username} failed`);
       throw new Error('invalid login');
     }
+    console.log(`login as ${username} succeeded`);
     return jwt.sign({username: username}, SECRET);
   },
   signup: function({username, password}) {
     if (!password || PASSWORDS[username]) {
+      console.log(`signup as ${username} failed`);
       throw new Error('invalid signup');
     }
+    console.log(`signup as ${username} succeeded`);
     return jwt.sign({username: username}, SECRET);
   },
   me: function({}, request) {
     if (!request.user || !request.user.username) {
+      console.log('invalid auth');
       throw new Error('invalid auth');
     }
+    console.log(`authentication as ${username} succeeded`);
     return {username: request.user.username};
   },
 };
@@ -53,6 +59,10 @@ app.use(expressJWT({
   secret: SECRET,
   credentialsRequired: false,
 }));
+app.use('/graphql', (req, res, next) => {
+  console.log('request:', req);
+  next();
+});
 app.use('/graphql', graphqlHTTP({
   schema,
   rootValue: root,
