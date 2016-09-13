@@ -59,10 +59,6 @@ app.use(expressJWT({
   secret: SECRET,
   credentialsRequired: false,
 }));
-app.use('/graphql', (req, res, next) => {
-  console.log('request:', req);
-  next();
-});
 app.use('/graphql', graphqlHTTP({
   schema,
   rootValue: root,

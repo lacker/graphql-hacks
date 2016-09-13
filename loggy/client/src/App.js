@@ -85,7 +85,7 @@ class App extends Component {
   }
 
   signup(username, password) {
-    runGraphQL(`mutation {
+    runGraphQL(`mutation Signup($username: String, $password: String) {
       signup(username: $username, password: $password)
     }`, {
       'username': username,
@@ -98,7 +98,7 @@ class App extends Component {
   }
 
   login(username, password) {
-    runGraphQL(`mutation {
+    runGraphQL(`mutation Login($username: String, $password: String) {
       login(username: $username, password: $password)
     }`, {
       username,
