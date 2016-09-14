@@ -1,0 +1,12 @@
+GEM
+  specs:
+    graphql (0.18.11)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  graphql
+
+BUNDLED WITH
+   1.12.5
