@@ -1,0 +1,19 @@
+{
+  "name": "helloapollo",
+  "version": "0.0.1",
+  "description": "",
+  "main": "apollo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^0.2.8",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "graphql": "^0.7.0",
+    "graphql-tools": "^0.7.0"
+  }
+}
