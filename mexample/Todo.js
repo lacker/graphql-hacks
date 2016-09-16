@@ -7,8 +7,10 @@ class Todo {
     this.id = id || uuid.v4();
     this.text = text || '';
     this.completed = completed || false;
-    this.username = username || (
-      throw new Error('todo items must have a username'));
+    if (!username) {
+      throw new Error('todo items must have a username');
+    }
+    this.username = username;
   }
 
   // Returns a promise for a list of todos with the given username
