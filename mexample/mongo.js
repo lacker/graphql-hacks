@@ -5,7 +5,7 @@ var { MongoClient } = require('mongodb');
 // In a real production environment you wouldn't want your application
 // server to start your database process like this.
 prebuilt.start_server(null, (errorCode) => {
-  console.log('got error code', errorCode);
+  console.log('start_server got error code', errorCode);
 });
 
 // Connect to the 'todofullstack' database on the default Mongo port.
@@ -14,6 +14,7 @@ prebuilt.start_server(null, (errorCode) => {
 function connect() {
   var url = 'mongodb://localhost:27017/todofullstack';
   return MongoClient.connect(url).then((db) => {
+    console.log('connected ok');
     module.exports.db = db;
   });
 }
