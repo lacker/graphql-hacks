@@ -5,15 +5,23 @@
 </template>
 
 <script>
+var stuff = {
+  msg: 'loading...',
+};
+
+var counter = 0;
+setInterval(() => {
+  counter++;
+  if (counter % 2 == 0) {
+    stuff.msg = 'Hello World!';
+  } else {
+    stuff.msg = 'Hello Blinking World!';
+  }
+}, 1000);
+
 export default {
   data () {
-    return {
-      // note: changing this line won't causes changes
-      // with hot-reload because the reloaded component
-      // preserves its current state and we are modifying
-      // its initial state.
-      msg: 'Hello World!'
-    }
+    return stuff;
   }
 }
 </script>
