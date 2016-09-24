@@ -16,11 +16,17 @@ let Monster = db.define('monster', {
   likesBacon: Sequelize.BOOLEAN,
 });
 
-const app = express();
+console.log('syncing db...');
+Monster.sync().then(() => {
+  console.log('synced');
 
-app.use(postgraphql(url));
+  const app = express();
 
-let port = 4000;
-app.listen(port, () => {
-  console.log(`listening at localhost:${port}`);
+  app.use(postgraphql(url));
+
+  let port = 4000;
+  app.listen(port, () => {
+    console.log(`listening at localhost:${port}`);
+  });
+
 });
