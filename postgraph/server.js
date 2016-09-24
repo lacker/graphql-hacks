@@ -10,6 +10,12 @@ let url = `postgres://${username}:${password}@localhost:5432/${dbname}`;
 
 let db = new Sequelize(url);
 
+let Monster = db.define('monster', {
+  name: Sequelize.STRING,
+  charisma: Sequelize.INTEGER,
+  likesBacon: Sequelize.BOOLEAN,
+});
+
 const app = express();
 
 app.use(postgraphql(url));
