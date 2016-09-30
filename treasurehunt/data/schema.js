@@ -28,6 +28,7 @@ import {
   getHidingSpot,
   getHidingSpots,
   getTurnsRemaining,
+  playAgain,
 } from './database';
 
 const {nodeInterface, nodeField} = nodeDefinitions(
@@ -119,6 +120,20 @@ const CheckHidingSpotForTreasureMutation = mutationWithClientMutationId({
     const localHidingSpotId = fromGlobalId(id).id;
     checkHidingSpotForTreasure(localHidingSpotId);
     return {localHidingSpotId};
+  },
+});
+
+const PlayAgainMutation = mutationWithClientMutationId({
+  name: 'PlayAgain',
+  inputFields: {},
+  outputFields: {
+    game: {
+      type: gameType,
+      resolve: () => getGame(),
+    },
+  },
+  mutateAndGetPayload: ({id}) => {
+    playAgain();
   },
 });
 

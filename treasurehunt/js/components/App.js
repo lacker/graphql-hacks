@@ -1,4 +1,5 @@
 import CheckHidingSpotForTreasureMutation from '../mutations/CheckHidingSpotForTreasureMutation';
+import PlayAgainMutation from '../mutations/PlayAgainMutation';
 import React from 'react';
 import Relay from 'react-relay';
 
@@ -36,6 +37,9 @@ class App extends React.Component {
       })
     );
   }
+  _handlePlayAgainClick() {
+    this.props.relay.commitUpdate(new PlayAgainMutation());
+  }
   _hasFoundTreasure() {
     return (
       this.props.game.hidingSpots.edges.some(edge => edge.node.hasTreasure)
@@ -71,6 +75,8 @@ class App extends React.Component {
         <h1>{headerText}</h1>
         {this.renderGameBoard()}
         <p>Turns remaining: {this.props.game.turnsRemaining}</p>
+        <button
+          onClick={() => this._handlePlayAgainClick()}>New Game</button>
       </div>
     );
   }
