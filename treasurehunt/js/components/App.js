@@ -38,7 +38,12 @@ class App extends React.Component {
     );
   }
   _handlePlayAgainClick() {
-    this.props.relay.commitUpdate(new PlayAgainMutation());
+    let relay = this.props.relay;
+    console.log('relay:', relay);
+    let mut = new PlayAgainMutation({});
+    console.log('mut:', mut);
+    relay.commitUpdate(mut);
+    console.log('XXX hPAC ok');
   }
   _hasFoundTreasure() {
     return (
@@ -76,7 +81,7 @@ class App extends React.Component {
         {this.renderGameBoard()}
         <p>Turns remaining: {this.props.game.turnsRemaining}</p>
         <button
-          onClick={() => this._handlePlayAgainClick()}>New Game</button>
+          onClick={this._handlePlayAgainClick.bind(this)}>New Game</button>
       </div>
     );
   }
